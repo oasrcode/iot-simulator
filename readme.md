@@ -32,7 +32,6 @@ networks:
     name: iot-dashboard
 ```
 
-
 ## Crear las carpetas necesarias
 
 Crea una carpeta llamada `mosquitto` y dentro de ella crea las siguientes subcarpetas:
@@ -45,7 +44,6 @@ da----               25/05/2024 12:20              data
 da----               25/05/2024 11:33              log
 ```
 
-
 ## Dentro de la carpeta `config`
 
 Asegúrate de que la carpeta `config` contenga los siguientes archivos:
@@ -56,7 +54,6 @@ Mode                 LastWriteTime         Length Name
 -a----               25/05/2024 12:20          200 mosquitto.conf
 -a----               25/05/2024 12:20          119 pwfile
 ```
-
 
 ## Contenido de `mosquitto.conf`
 
@@ -71,7 +68,6 @@ persistence_file mosquitto.db
 persistence_location /mosquitto/data/
 ```
 
-
 ## Crear usuario y contraseña de `mosquitto.conf`
 
 ```yaml
@@ -84,8 +80,7 @@ Otra vía en caso de error
 docker exec -it mqtt5  mosquitto_passwd -c chmod 0700 /mosquitto/config/pwfile admin
 ```
 
-La contraseña será pedida tras hacer click en enter
-
+La contraseña será pedida tras hacer click en enter. Cambiar el mosquitto.conf allow_anonymous true
 
 ## Conexión con Mqtt Explorer
 
