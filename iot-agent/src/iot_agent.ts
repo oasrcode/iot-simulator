@@ -1,6 +1,7 @@
 import { AirSensors } from "./sensors/AirSensors";
 const mqtt = require("mqtt");
 require('dotenv').config();
+
 const mqttOptions = {
     host: process.env.MQTT_HOST || "localhost", // Host del broker MQTT
     port: process.env.MQTT_PORT || 1883, // Puerto del broker MQTT
@@ -8,17 +9,20 @@ const mqttOptions = {
     password: process.env.MQTT_PASSWORD || "admin", // Contraseña del broker MQTT
     clientId: process.env.MQTT_CLIENT_ID || "iot_agent", // Identificador del cliente MQTT
   };
+
 const client = mqtt.connect(mqttOptions);
 const topicAirSensor = "Sensors/AirSensors/";
 const airSensor = new AirSensors();
+
 client.on("connect", () => {
   console.log("Conectado al broker MQTT");
   airSensor.generateSensors();
   setInterval(() => {
     airSensor.listSensorAir.forEach((sensor) => {
-      publishData(sensor.generateFakeData(), topicAirSensor);
+      let sensorTopic=`${sensor.name}/data`;
+      publishData(sensor.generateFakeData(), topicAirSensor+sensorTopic);
     });
-  }, 5000);
+  }, 10000);
 
   function publishData(data: string, topic: string) {
     client.publish(topic, data, (err: Error) => {
