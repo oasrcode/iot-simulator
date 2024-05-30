@@ -3,7 +3,7 @@ services:
   # mqtt5 eclipse-mosquitto
   mqtt5:
     image: eclipse-mosquitto
-    container_name: mqtt5
+    container_name: MQTTServer
     ports:
       - "1883:1883" #default mqtt port
       - "9001:9001" #default mqtt port for websockets
@@ -12,6 +12,14 @@ services:
       - ./mosquitto/data:/mosquitto/data:rw
       - ./mosquitto/log:/mosquitto/log:rw
     restart: unless-stopped
+  iot-agent:
+    build: ./iot-agent
+    container_name: iot-agent
+    ports:
+      - "8080:8080" #default mqtt port
+    restart: unless-stopped
+    depends_on: 
+      - mqtt5
 
 # volumes for mapping data,config and log
 volumes:
