@@ -4,9 +4,10 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import mqttServer from "./mqtt";
+import MongoServer from "./database/mongo.config";
 
 dotenv.config();
-const PORT: number = parseInt(process.env["PORT"] as string, 10);
+const PORT: number = parseInt(process.env.PORT as string, 10);
 if (!PORT) {
   console.error("El puerto no está definido en las variables de entorno");
   process.exit(1);
@@ -33,7 +34,11 @@ app.use(
 );
 
 // Iniciar servidor
-app.listen(PORT, () => {
-  console.log(`Servidor levantado en el puerto ${PORT}`);
-  mqttServer.init()
+app.listen(PORT, async () => {
+  try {
+    await Promise.all([mqttServer.init(), MongoServer.initMongo()]);
+    console.log("MongoDB y servidor MQTT conectados correctamente.");
+  } catch (err) {
+    console.error("Error al iniciar MongoDB y servidor MQTT:", err);
+  }
 });

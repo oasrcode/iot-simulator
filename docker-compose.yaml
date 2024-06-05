@@ -20,12 +20,20 @@ services:
     restart: unless-stopped
     depends_on: 
       - mqtt5
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017" # default MongoDB port
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
 
-# volumes for mapping data,config and log
 volumes:
   config:
   data:
   log:
+  mongo-data:
 
 networks:
   default:

@@ -23,6 +23,18 @@ function init() {
   client.on("error", (err: Error) => {
     console.error("Error de conexión:", err);
   });
+
+  client.on("reconnect", () => {
+    console.log("Intentando reconectar al servidor MQTT...");
+  });
+
+  client.on("close", () => {
+    console.log("Conexión MQTT cerrada");
+  });
+
+  client.on("offline", () => {
+    console.log("Cliente MQTT está offline");
+  });
 }
 const mqttServer={
   init
