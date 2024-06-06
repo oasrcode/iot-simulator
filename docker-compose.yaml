@@ -35,7 +35,7 @@ services:
       - "4202:4200"
     volumes:
       - crate-data:/tmp/crate/data 
-
+    restart: unless-stopped
 volumes:
   config:
   data:
