@@ -1,27 +1,33 @@
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
-const url = "mongodb://localhost:27017" || "mongodb://mongo:27017";
+const url = process.env.MONGO_URL || "mongodb://mongo:27017";
 const client = new MongoClient(url);
-const dbName = "iot-Dashboard";
+;
 
 async function initMongo() {
   try {
     await client.connect();
     console.log("Conexión a MongoDB realizada correctamente");
 
-    const db = client.db(dbName);
-    console.log(`Base de datos: ${db.databaseName}`);
-
-    const collection = db.collection("documents");
-    console.log(`Colección: ${collection.collectionName}`);
   } catch (err) {
     console.error("Error al conectar con la base de datos:", err);
   }
 }
 
-const MongoServer = {
+async function close() {
+  try {
+    await client.close();
+    console.log("Conexión a MongoGB cerrada correctamente");
+  } catch (err) {
+    console.error("Error al cerrar la conexión con la base de datos:", err);
+  }
+}
+
+const mongoServer = {
   initMongo,
+  close,
+  client
 };
 
-export default MongoServer;
+export default mongoServer;

@@ -3,7 +3,7 @@ services:
   # mqtt5 eclipse-mosquitto
   mqtt5:
     image: eclipse-mosquitto
-    container_name: MQTTServer
+    container_name: mqtt-broker
     ports:
       - "1883:1883" #default mqtt port
       - "9001:9001" #default mqtt port for websockets
@@ -32,7 +32,8 @@ services:
     image: crate:latest
     container_name: crate
     ports:
-      - "4202:4200"
+      - "4200:4200"
+      - "5432:5432"
     volumes:
       - crate-data:/tmp/crate/data 
     restart: unless-stopped

@@ -4,7 +4,8 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import mqttServer from "./mqtt";
-import MongoServer from "./database/mongo.config";
+import mongoServer from "./database/mongo";
+import crateServer from "./database/crate";
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -36,9 +37,8 @@ app.use(
 // Iniciar servidor
 app.listen(PORT, async () => {
   try {
-    await Promise.all([mqttServer.init(), MongoServer.initMongo()]);
-    console.log("MongoDB y servidor MQTT conectados correctamente.");
+    await Promise.all([mqttServer.init(), mongoServer.initMongo(),crateServer.init()]);
   } catch (err) {
-    console.error("Error al iniciar MongoDB y servidor MQTT:", err);
+    console.error("Error ", err);
   }
 });
