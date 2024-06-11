@@ -12,14 +12,14 @@ export class AirQualitySensor extends MainData {
   so2: number; // SO2 (ppm o µg/m³)
   co2: number; // CO2 (ppm o µg/m³)
   constructor(
-    id: number,
-    name: string,
+    serialnumber: string,
     type: string,
+    name: string,
     location: string,
     longitude: number,
     latitude: number,
   ) {
-    super(id, type, name, location, latitude, longitude);
+    super(serialnumber, type, name, location, latitude, longitude);
     this.date=new Date().toString()
     this.pm10 = 0;
     this.pm2_5 = 0;
@@ -33,7 +33,7 @@ export class AirQualitySensor extends MainData {
   }
   generateFakeData():string {
     return JSON.stringify({
-      id: this.id,
+      serialnumber: this.serialnumber,
       name: this.name,
       type: this.type,
       date: new Date().toString(),

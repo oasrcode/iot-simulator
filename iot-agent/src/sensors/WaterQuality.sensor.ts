@@ -11,7 +11,27 @@ export class WaterQualitySensor extends MainData {
   lead: number; // Concentración de plomo (µg/L)
   mercury: number; // Concentración de mercurio (µg/L)
   arsenic: number; // Concentración de arsénico ((µg/L)
-
+ 
+  constructor(
+    serialnumber: string,
+    name: string,
+    type: string,
+    location: string,
+    longitude: number,
+    latitude: number,
+  ) {
+    super(serialnumber, type, name, location, latitude, longitude);
+    this.date=new Date().toString()
+    this.pH = 0;
+    this.turbidity = 0;
+    this.dissolvedOxygen = 0;
+    this.conductivity = 0;
+    this.totalDissolvedSolids = 0;
+    this.residualChlorine = 0;
+    this.lead = 0;
+    this.mercury = 0;
+    this.arsenic = 0;
+  }
   generateFakeData():string {
     return JSON.stringify({
       pH: faker.number.float({ min: 7, max: 8.5, precision: 0.01 }).toFixed(2),

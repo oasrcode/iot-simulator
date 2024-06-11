@@ -1,5 +1,5 @@
 export class MainData {
-  id: number;
+  serialnumber: string;
   type: string;
   name: string;
   location: string;
@@ -8,14 +8,14 @@ export class MainData {
   date: string;
 
   constructor(
-    id: number,
+    serialnumber: string,
     type: string,
     name: string,
     location: string,
     latitude: number,
     longitude: number,
   ) {
-    this.id = id;
+    this.serialnumber = serialnumber;
     this.type = type;
     this.name = name;
     this.location = location;
