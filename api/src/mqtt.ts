@@ -1,7 +1,7 @@
 import mqtt, { MqttClient } from "mqtt";
 import mqttConfig from "./config/mqttConfig";
 
-const client: MqttClient = mqtt.connect(mqttConfig.mqttOptions);
+const client: MqttClient = mqtt.connect(mqttConfig.options);
 
 function init() {
   client.on("connect", () => {

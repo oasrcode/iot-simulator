@@ -1,15 +1,14 @@
 import { MongoClient } from "mongodb";
-import dotenv from "dotenv";
-dotenv.config();
-const url = process.env.MONGO_URL || "mongodb://mongo:27017";
-const client = new MongoClient(url);
-;
+
+import mongoConfig from "../config/mongoConfig";
+
+const client = new MongoClient(mongoConfig.url, mongoConfig.options);
 
 async function initMongo() {
   try {
     await client.connect();
     console.log("Conexión a MongoDB realizada correctamente");
-
+    await createDatabase()
   } catch (err) {
     console.error("Error al conectar con la base de datos:", err);
   }
@@ -24,10 +23,33 @@ async function close() {
   }
 }
 
+async function createDatabase() {
+  const exist = await ExistDatabase();
+  if (!exist) {
+    try {
+      const db = client.db(mongoConfig.db);
+      await db.createCollection("airsensors")
+      await db.createCollection("watersensor")
+    } catch (err) {
+      console.error("Error al crear la base de datos", err);
+    }
+  }
+}
+
+async function ExistDatabase() {
+  try {
+    const adminDb = client.db("admin");
+    const dbList = await adminDb.admin().listDatabases();
+    return dbList.databases.some((db) => db.name === mongoConfig.db);
+  } catch (err) {
+    console.error("Error al comprobar si la base de datos existe", err);
+  }
+}
+
 const mongoServer = {
   initMongo,
   close,
-  client
+  client,
 };
 
 export default mongoServer;

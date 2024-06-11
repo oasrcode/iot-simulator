@@ -8,7 +8,7 @@ const topics = {
   airSensor:"Sensors/AirSensors/+/data",
 };
 
-const mqttOptions: IClientOptions = {
+const options: IClientOptions = {
   host: process.env.MQTT_HOST || "localhost",
   port: process.env.MQTT_PORT ? Number.parseInt(process.env.MQTT_PORT) : 1883,
   username: process.env.MQTT_USERNAME || "admin",
@@ -16,7 +16,7 @@ const mqttOptions: IClientOptions = {
   clientId: process.env.MQTT_CLIENT_ID || "iot_api",
 };
 const mqttConfig = {
-  mqttOptions,
+  options,
   topics,
 };
 
