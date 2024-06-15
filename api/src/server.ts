@@ -37,6 +37,7 @@ app.use(
 app.use('/api/sensors', sensorRouter);
 // Iniciar servidor
 app.listen(PORT, async () => {
+  console.log(`Servidor levantado en http://localhost:${PORT}`)
   try {
     await Promise.all([mqttServer.init(), MONGOSERVER.initMongo(),CRATEDBSERVER.init()]);
   } catch (err) {

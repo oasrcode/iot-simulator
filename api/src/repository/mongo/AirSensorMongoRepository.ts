@@ -11,14 +11,18 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
     this.database = _database.db(_dbName);
   }
 
-  async getAirSensorDataBySerialnumber(serialnumber: string): Promise<any> {
+  async getAirSensorDataBySerialnumber(
+    serialnumber: string
+  ): Promise<AirSensorData | null> {
     try {
-      return await this.database
+      const sensordata = await this.database
         .collection<AirSensorData>(this.collectionName)
         .findOne({ serialnumber });
+
+      return sensordata;
     } catch (error) {
       console.error(
-        `Failed to get air sensor data by serial number: ${serialnumber}`,
+        `Error el recuperar el airSensor con serialnumber : ${serialnumber}`,
         error
       );
       throw error;
@@ -30,7 +34,7 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
         .collection<AirSensorData>(this.collectionName)
         .insertOne(data);
     } catch (error) {
-      console.error("Failed to post air sensor data", error);
+      console.error("Error al crear airSensor en mongo", error);
       throw error;
     }
   }
@@ -41,7 +45,7 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
         .updateOne({ serialnumber: data.serialnumber }, { $set: data });
     } catch (error) {
       console.error(
-        `Failed to update air sensor data with serial number: ${data.serialnumber}`,
+        `Error al actualizar el airSensor con serialnumber : ${data.serialnumber}`,
         error
       );
       throw error;

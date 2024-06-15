@@ -4,8 +4,11 @@ import CRATEDBSERVER from "../database/crate";
 import MONGOSERVER from "../database/mongo";
 
 class SensorController {
-  async getAirSensorMongoData(req: Request, res: Response): Promise<void> {
-    const { serialnumber } = req.params;
+
+  async getAirSensorMongoData(serialnumber:string): Promise<AirSensorData | null> {
+    
+    const sensorData = await MONGOSERVER.airSensorMongoService.getAirSensorData(serialnumber)
+    return sensorData;
   }
 
   async storageAirSensorMongoData(data: AirSensorData): Promise<void> {
