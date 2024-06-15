@@ -36,10 +36,6 @@
     "mongodb": "^6.7.0",
     "morgan": "^1.10.0",
     "mqtt": "^5.7.0",
-    "pg": "^8.12.0",
-    "sequelize": "^6.37.3",
-    "sequelize-auto": "^0.8.8",
-    "sequelize-typescript": "^2.1.6",
-    "uuid": "^9.0.1"
+    "pg": "^8.12.0"
   }
 }
