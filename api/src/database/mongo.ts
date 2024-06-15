@@ -1,14 +1,20 @@
 import { MongoClient } from "mongodb";
 
 import mongoConfig from "../config/mongoConfig";
+import AirSensorMongoRepository from "../repository/mongo/AirSensorMongoRepository";
+import AirSensorMongoService from "../service/mongo/AirSensorMongoService";
 
-const client = new MongoClient(mongoConfig.url, mongoConfig.options);
+const CLIENT = new MongoClient(mongoConfig.URL, mongoConfig.OPTIONS);
 
+const airSensorMongoRepository = new AirSensorMongoRepository(CLIENT, mongoConfig.DB);
+const airSensorMongoService = new AirSensorMongoService(airSensorMongoRepository);
+
+const COLLECTIONS = ["airsensors", "watersensor"];
 async function initMongo() {
   try {
-    await client.connect();
+    await CLIENT.connect();
     console.log("Conexión a MongoDB realizada correctamente");
-    await createDatabase()
+    await createCollections();
   } catch (err) {
     console.error("Error al conectar con la base de datos:", err);
   }
@@ -16,40 +22,50 @@ async function initMongo() {
 
 async function close() {
   try {
-    await client.close();
+    await CLIENT.close();
     console.log("Conexión a MongoGB cerrada correctamente");
   } catch (err) {
     console.error("Error al cerrar la conexión con la base de datos:", err);
   }
 }
 
-async function createDatabase() {
+async function createCollections() {
   const exist = await ExistDatabase();
   if (!exist) {
     try {
-      const db = client.db(mongoConfig.db);
-      await db.createCollection("airsensors")
-      await db.createCollection("watersensor")
+      if (!mongoConfig.DB) {
+        console.error(
+          "Error: Nombre de base de datos no definida en las variables de entorno."
+        );
+        return;
+      }
+      const db = CLIENT.db(mongoConfig.DB);
+
+      COLLECTIONS.forEach(async (i) => {
+        await db.createCollection(i);
+      });
     } catch (err) {
       console.error("Error al crear la base de datos", err);
+      throw err;
     }
   }
 }
 
 async function ExistDatabase() {
   try {
-    const adminDb = client.db("admin");
+    const adminDb = CLIENT.db("admin");
     const dbList = await adminDb.admin().listDatabases();
-    return dbList.databases.some((db) => db.name === mongoConfig.db);
+    return dbList.databases.some((db) => db.name === mongoConfig.DB);
   } catch (err) {
     console.error("Error al comprobar si la base de datos existe", err);
   }
 }
 
-const mongoServer = {
+const MONGOSERVER = {
   initMongo,
   close,
-  client,
+  CLIENT,
+  airSensorMongoService
 };
 
-export default mongoServer;
+export default MONGOSERVER;

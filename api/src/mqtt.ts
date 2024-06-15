@@ -1,23 +1,29 @@
+import MQTTCONFIG from "./config/mqttConfig";
+import AirSensorData from "./models/AirSensorData";
+import SensorController from "./controller/sensorController";
 import mqtt, { MqttClient } from "mqtt";
-import mqttConfig from "./config/mqttConfig";
 
-const client: MqttClient = mqtt.connect(mqttConfig.options);
+
+const client: MqttClient = mqtt.connect(MQTTCONFIG.OPTIONS);
 
 function init() {
   client.on("connect", () => {
-    client.subscribe(mqttConfig.topics.airSensor, (err: Error | null) => {
+    client.subscribe(MQTTCONFIG.TOPICS.AIRSENSOR, (err: Error | null) => {
       if (err) {
         console.error("Error al suscribirse al topic:", err);
       } else {
-        console.log(`Suscrito al topic ${mqttConfig.topics.airSensor}`);
+        console.log(`Suscrito al topic ${MQTTCONFIG.TOPICS.AIRSENSOR}`);
       }
     });
   });
-  client.on("message", (topic: string, message: Buffer) => {
-    if (topic.includes('Sensors/AirSensors')) {
-      const data = JSON.parse(message.toString());
-   
-      console.log(`Mensaje recibido en ${topic}: ${data}`);
+  client.on("message", async (topic: string, message: Buffer) => {
+    if (topic.includes("Sensors/AirSensors")) {
+      const jsonData = JSON.parse(message.toString());
+      let airSensorData = new AirSensorData();
+      airSensorData.parseData(jsonData);
+      airSensorData.printData();
+
+      await StoreAirSensorData(airSensorData);
     }
   });
   client.on("error", (err: Error) => {
@@ -36,8 +42,30 @@ function init() {
     console.log("Cliente MQTT está offline");
   });
 }
-const mqttServer={
-  init
-}
 
-export default mqttServer
+async function StoreAirSensorData(sensorData: AirSensorData) {
+  try {
+    const sensorController: SensorController = new SensorController();
+    await sensorController.storageAirSensorMongoData(sensorData);
+  } catch (error) {
+    console.error(
+      "Error al almacenar los datos del sensor de aire en mongo :",
+      error
+    );
+  }
+
+  try {
+    const sensorController: SensorController = new SensorController();
+    await sensorController.storageAirSensorCrateData(sensorData);
+  } catch (error) {
+    console.error(
+      "Error al almacenar los datos del sensor de aire en crate:",
+      error
+    );
+  }
+}
+const mqttServer = {
+  init,
+};
+
+export default mqttServer;

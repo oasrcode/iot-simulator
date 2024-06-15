@@ -4,8 +4,9 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import mqttServer from "./mqtt";
-import mongoServer from "./database/mongo";
-import crateServer from "./database/crate";
+import MONGOSERVER from "./database/mongo";
+import CRATEDBSERVER from "./database/crate";
+import sensorRouter from "./routes/sensorRoutes";
 
 dotenv.config();
 const PORT: number = parseInt(process.env.PORT as string, 10);
@@ -33,11 +34,11 @@ app.use(
     res.status(500).send("Error!");
   }
 );
-
+app.use('/api/sensors', sensorRouter);
 // Iniciar servidor
 app.listen(PORT, async () => {
   try {
-    await Promise.all([mqttServer.init(), mongoServer.initMongo(),crateServer.init()]);
+    await Promise.all([mqttServer.init(), MONGOSERVER.initMongo(),CRATEDBSERVER.init()]);
   } catch (err) {
     console.error("Error ", err);
   }

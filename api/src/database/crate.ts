@@ -1,33 +1,55 @@
 import { Client } from "pg";
+import CRATECONFIG from "../config/crateConfig";
+import CRATEDBQUERY from "./queries/cratedbQuery";
 
-const client = new Client({
-    host: process.env.CRATE_HOST || "localhost",
-    port: process.env.CRATE_PORT ? parseInt(process.env.CRATE_PORT) : 5432,
-    user: process.env.CRATE_USER || "crate",
-});
+import AirSensorCrateRepository from "../repository/crate/AirSensorCrateRepository";
+import AirSensorCrateService from "../service/crate/AirSensorCrateService";
 
+const CLIENT = new Client(CRATECONFIG.OPTIONS);
+const airSensorCrateRepository = new AirSensorCrateRepository(CLIENT);
+const airSensorCrateService = new AirSensorCrateService(
+  airSensorCrateRepository
+);
 async function init() {
   try {
-    await client.connect();
+    await CLIENT.connect();
     console.log("Conexión a CrateDB realizada correctamente");
+    await createTables();
   } catch (err) {
     console.error("Error al conectar con la base de datos:", err);
+    throw err;
   }
 }
 
 async function close() {
   try {
-    await client.end();
+    await CLIENT.end();
     console.log("Conexión a CrateDB cerrada correctamente");
   } catch (err) {
     console.error("Error al cerrar la conexión con la base de datos:", err);
+    throw err;
   }
 }
 
-const crateServer = {
+async function createTables() {
+  const query = CRATEDBQUERY.CREATETABLE_AIRSENSOR;
+  if (!query) {
+    console.error("Error: Consulta no definida para crear la tabla AirSensor");
+    return;
+  }
+  try {
+    await CLIENT.query(query);
+  } catch (err) {
+    console.log("Error al crear la tabla ", err);
+    throw err;
+  }
+}
+
+const CRATEDBSERVER = {
   init,
   close,
-  client,
+  CLIENT,
+  airSensorCrateService,
 };
 
-export default crateServer;
+export default CRATEDBSERVER;
