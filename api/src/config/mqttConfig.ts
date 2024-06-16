@@ -6,6 +6,7 @@ dotenv.config();
 
 const TOPICS = {
   AIRSENSOR: "Sensors/AirSensors/+/data",
+  WATERSENSOR:"Sensors/WaterSensors/+/data"
 };
 
 const OPTIONS: IClientOptions = {
