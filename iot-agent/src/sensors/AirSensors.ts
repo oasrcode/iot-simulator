@@ -1,7 +1,7 @@
 import { AirQualitySensor } from "./AirQuality.sensor";
 
 export class AirSensors {
-  listSensorAir: AirQualitySensor[] = [];
+  airSensorsList: AirQualitySensor[] = [];
 
   public generateSensors() {
     let as_CostaAlegre = new AirQualitySensor(
@@ -22,7 +22,7 @@ export class AirSensors {
       -15.6884511
     );
 
-    this.listSensorAir.push(as_CostaAlegre);
-    this.listSensorAir.push(as_Patalavaca);
+    this.airSensorsList.push(as_CostaAlegre);
+    this.airSensorsList.push(as_Patalavaca);
   }
 }

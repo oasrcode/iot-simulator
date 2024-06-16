@@ -1,31 +1,44 @@
 import { AirSensors } from "./sensors/AirSensors";
-const mqtt = require("mqtt");
-require('dotenv').config();
+import { WaterSensors } from "./sensors/WaterSensors";
+import mqtt, { MqttClient, IClientOptions } from "mqtt";
 
-const mqttOptions = {
-    host: process.env.MQTT_HOST || "localhost", // Host del broker MQTT
-    port: process.env.MQTT_PORT || 1883, // Puerto del broker MQTT
-    username: process.env.MQTT_USERNAME || "admin", // Usuario del broker MQTT
-    password: process.env.MQTT_PASSWORD || "admin", // Contraseña del broker MQTT
-    clientId: process.env.MQTT_CLIENT_ID || "iot_agent", // Identificador del cliente MQTT
-  };
+require("dotenv").config();
 
-const client = mqtt.connect(mqttOptions);
+const MQTTOPTIONS: IClientOptions = {
+  host: process.env.MQTT_HOST || "localhost", // Host del broker MQTT
+  port: process.env.MQTT_PORT ? Number.parseInt(process.env.MQTT_PORT) : 1883, // Puerto del broker MQTT
+  username: process.env.MQTT_USERNAME || "admin", // Usuario del broker MQTT
+  password: process.env.MQTT_PASSWORD || "admin", // Contraseña del broker MQTT
+  clientId: process.env.MQTT_CLIENT_ID || "iot_agent", // Identificador del cliente MQTT
+};
+
+const client: MqttClient = mqtt.connect(MQTTOPTIONS);
 const topicAirSensor = "Sensors/AirSensors/";
-const airSensor = new AirSensors();
-
+const topicWaterSensor ="Sensors/WaterSensors/"
+const airSensors = new AirSensors();
+const waterSensors = new WaterSensors();
 client.on("connect", () => {
-  console.log("Conectado al broker MQTT");
-  airSensor.generateSensors();
+  console.log("Generador de sensores conectado al broker MQTT");
+  airSensors.generateSensors();
+  waterSensors.generateSensors();
+
   setInterval(() => {
-    airSensor.listSensorAir.forEach((sensor) => {
-      let sensorTopic=`${sensor.name}/data`;
-      publishData(sensor.generateFakeData(), topicAirSensor+sensorTopic);
+    airSensors.airSensorsList.forEach((sensor) => {
+      let sensorTopic = `${sensor.name}/data`;
+      publishData(sensor.generateFakeData(), topicAirSensor + sensorTopic);
+    });
+  }, 10000);
+
+
+  setInterval(() => {
+    waterSensors.waterSensorList.forEach((sensor) => {
+      let sensorTopic = `${sensor.name}/data`;
+      publishData(sensor.generateFakeData(), topicWaterSensor + sensorTopic);
     });
   }, 10000);
 
   function publishData(data: string, topic: string) {
-    client.publish(topic, data, (err: Error) => {
+    client.publish(topic, data, (err) => {
       if (err) {
         console.error("Error al enviar mensaje:", err);
       } else {

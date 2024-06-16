@@ -17,10 +17,10 @@ export class AirQualitySensor extends MainData {
     name: string,
     location: string,
     longitude: number,
-    latitude: number,
+    latitude: number
   ) {
     super(serialnumber, type, name, location, latitude, longitude);
-    this.date=new Date().toString()
+    this.date = new Date().toString();
     this.pm10 = 0;
     this.pm2_5 = 0;
     this.temperature = 0;
@@ -31,7 +31,7 @@ export class AirQualitySensor extends MainData {
     this.so2 = 0;
     this.co2 = 0;
   }
-  generateFakeData():string {
+  generateFakeData(): string {
     return JSON.stringify({
       serialnumber: this.serialnumber,
       name: this.name,
@@ -63,5 +63,4 @@ export class AirQualitySensor extends MainData {
         .toFixed(1),
     });
   }
-
 }
