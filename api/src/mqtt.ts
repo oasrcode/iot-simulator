@@ -2,13 +2,12 @@ import MQTTCONFIG from "./config/mqttConfig";
 import AirSensorData from "./models/AirSensorData";
 import SensorController from "./controller/sensorController";
 import mqtt, { MqttClient } from "mqtt";
-
+import WaterSensorData from "./models/WaterSensorData";
 
 const client: MqttClient = mqtt.connect(MQTTCONFIG.OPTIONS);
 
 function init() {
   client.on("connect", () => {
-   
     client.subscribe(MQTTCONFIG.TOPICS.AIRSENSOR, (err: Error | null) => {
       if (err) {
         console.error("Error al suscribirse al topic:", err);
@@ -26,7 +25,6 @@ function init() {
     });
   });
 
-  
   client.on("message", async (topic: string, message: Buffer) => {
     if (topic.includes("Sensors/AirSensors")) {
       const jsonData = JSON.parse(message.toString());
@@ -38,10 +36,11 @@ function init() {
 
     if (topic.includes("Sensors/WaterSensors")) {
       const jsonData = JSON.parse(message.toString());
-      console.log(jsonData)
+      let waterSensorData = new WaterSensorData();
+      waterSensorData.parseData(jsonData);
+      waterSensorData.printData();
     }
   });
-
 
   client.on("error", (err: Error) => {
     console.error("Error de conexión:", err);

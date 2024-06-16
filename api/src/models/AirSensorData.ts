@@ -40,7 +40,7 @@ class AirSensorData implements IAirSensorData {
     this.serialnumber = obj.serialnumber;
     this.name = obj.name;
     this.type = obj.type;
-    this.date = new Date(obj.date);  // Asegurando que date es un objeto Date
+    this.date = new Date(obj.date); 
     this.location = obj.location;
     this.latitude = parseFloat(obj.latitude);
     this.longitude = Number(obj.longitude);
