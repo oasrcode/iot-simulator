@@ -1,5 +1,5 @@
-import AirSensorData from "../../models/AirSensorData";
-import IAirSensorMongoRepository from "../../repository/mongo/IAirSensorMongoRepository";
+import AirSensorData from "../../../models/AirSensorData";
+import IAirSensorMongoRepository from "../../../repository/airSensor/mongo/IAirSensorMongoRepository";
 import IAirSensorMongoService from "./IAirSensorMongoService";
 
 class AirSensorMongoService implements IAirSensorMongoService {
@@ -9,7 +9,6 @@ class AirSensorMongoService implements IAirSensorMongoService {
     this.airSensorRepository = _airSensorRepository;
   }
   async getAirSensorData(serialnumber: string): Promise<AirSensorData | null> {
-   
     const sensorData =
       await this.airSensorRepository.getAirSensorDataBySerialnumber(
         serialnumber
@@ -19,10 +18,7 @@ class AirSensorMongoService implements IAirSensorMongoService {
   }
 
   async saveAirSensorData(data: AirSensorData): Promise<void> {
-    const sensor =
-      await this.airSensorRepository.getAirSensorDataBySerialnumber(
-        data.serialnumber
-      );
+    const sensor = await this.getAirSensorData(data.serialnumber);
 
     if (!sensor) {
       await this.airSensorRepository.postAirSensorData(data);

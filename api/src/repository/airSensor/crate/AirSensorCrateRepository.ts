@@ -1,7 +1,9 @@
-import AirSensorData from "../../models/AirSensorData";
+
 import { Client } from "pg";
 import IAirSensorCrateRepository from "./IAirSensorCrateRepository";
-import CRATEDBQUERY from "../../database/queries/cratedbQuery";
+import CRATEDBQUERY from "../../../database/queries/cratedbQuery";
+import AirSensorData from "../../../models/AirSensorData";
+
 
 class AirSensorCrateRepository implements IAirSensorCrateRepository {
   private readonly cliente: Client;

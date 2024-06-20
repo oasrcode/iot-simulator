@@ -39,6 +39,7 @@ function init() {
       let waterSensorData = new WaterSensorData();
       waterSensorData.parseData(jsonData);
       waterSensorData.printData();
+      await StoreWaterSensorData(waterSensorData)
     }
   });
 
@@ -76,6 +77,28 @@ async function StoreAirSensorData(sensorData: AirSensorData) {
   } catch (error) {
     console.error(
       "Error al almacenar los datos del sensor de aire en crate:",
+      error
+    );
+  }
+}
+
+async function StoreWaterSensorData(sensorData: WaterSensorData) {
+  try {
+    const sensorController: SensorController = new SensorController();
+    await sensorController.storageWaterSensorMongoData(sensorData);
+  } catch (error) {
+    console.error(
+      "Error al almacenar los datos del sensor de agua en mongo :",
+      error
+    );
+  }
+
+  try {
+    const sensorController: SensorController = new SensorController();
+    await sensorController.storageWaterSensorCrateData(sensorData);
+  } catch (error) {
+    console.error(
+      "Error al almacenar los datos del sensor de agua en crate:",
       error
     );
   }

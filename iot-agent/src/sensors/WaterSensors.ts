@@ -7,7 +7,7 @@ export class WaterSensors {
     let ws_CostaAlegre = new WaterQualitySensor(
       "MJBPICLTHG",
       "WaterSensor",
-      "Sensor de agura - Playa Costa Alegre",
+      "Sensor de agua - Playa Costa Alegre",
       "Playa Costa Alegre, Arguineguín",
       27.7608888,
       -15.6849175

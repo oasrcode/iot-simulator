@@ -1,6 +1,7 @@
-import AirSensorData from "../../models/AirSensorData";
-import IAirSensorCrateRepository from "../../repository/crate/IAirSensorCrateRepository";
+import AirSensorData from "../../../models/AirSensorData";
+import IAirSensorCrateRepository from "../../../repository/airSensor/crate/IAirSensorCrateRepository";
 import IAirSensorCrateService from "./IAirSensorCrateservice";
+
 
 class AirSensorCrateService implements IAirSensorCrateService {
   private _airSensorRepository: IAirSensorCrateRepository;

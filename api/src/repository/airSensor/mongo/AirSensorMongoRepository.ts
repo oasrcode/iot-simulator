@@ -1,7 +1,8 @@
 import { MongoClient, Db } from "mongodb";
 
-import AirSensorData from "../../models/AirSensorData";
+
 import IAirSensorMongoRepository from "./IAirSensorMongoRepository";
+import AirSensorData from "../../../models/AirSensorData";
 
 class AirSensorMongoRepository implements IAirSensorMongoRepository {
   private readonly database: Db;
@@ -22,7 +23,7 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
       return sensordata;
     } catch (error) {
       console.error(
-        `Error el recuperar el airSensor con serialnumber : ${serialnumber}`,
+        `Error el recuperar el sensor del aire con serialnumber : ${serialnumber}`,
         error
       );
       throw error;
@@ -34,7 +35,7 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
         .collection<AirSensorData>(this.collectionName)
         .insertOne(data);
     } catch (error) {
-      console.error("Error al crear airSensor en mongo", error);
+      console.error("Error al crear el sensor del aire en mongo", error);
       throw error;
     }
   }
@@ -45,7 +46,7 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
         .updateOne({ serialnumber: data.serialnumber }, { $set: data });
     } catch (error) {
       console.error(
-        `Error al actualizar el airSensor con serialnumber : ${data.serialnumber}`,
+        `Error al actualizar el sensor del aire con serialnumber : ${data.serialnumber}`,
         error
       );
       throw error;

@@ -1,4 +1,5 @@
-import AirSensorData from "../../models/AirSensorData"
+import AirSensorData from "../../../models/AirSensorData"
+
 
 
 interface IAirSensorMongoRepository{
