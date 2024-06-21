@@ -27,7 +27,7 @@ client.on("connect", () => {
       let sensorTopic = `${sensor.name}/data`;
       publishData(sensor.generateFakeData(), topicAirSensor + sensorTopic);
     });
-  }, 10000);
+  }, 60000);
 
 
   setInterval(() => {
@@ -35,7 +35,7 @@ client.on("connect", () => {
       let sensorTopic = `${sensor.name}/data`;
       publishData(sensor.generateFakeData(), topicWaterSensor + sensorTopic);
     });
-  }, 10000);
+  }, 60000);
 
   function publishData(data: string, topic: string) {
     client.publish(topic, data, (err) => {
