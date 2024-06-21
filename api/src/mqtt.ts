@@ -20,7 +20,7 @@ function init() {
       if (err) {
         console.error("Error al suscribirse al topic:", err);
       } else {
-        console.log(`Suscrito al topic ${MQTTCONFIG.TOPICS.AIRSENSOR}`);
+        console.log(`Suscrito al topic ${MQTTCONFIG.TOPICS.WATERSENSOR}`);
       }
     });
   });
