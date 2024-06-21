@@ -20,6 +20,17 @@ services:
     restart: unless-stopped
     depends_on: 
       - mqtt5
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - "5000:5000" #default mqtt port
+    restart: unless-stopped
+    depends_on: 
+      - mqtt5
+      - iot-agent
+      - mongo
+      - cratedb  
   mongo:
     image: mongo
     container_name: mongo
