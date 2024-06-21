@@ -11,6 +11,13 @@ class SensorController {
     return sensorData;
   }
 
+  async getWaterSensorMongoData(serialnumber: string): Promise<WaterSensorData | null>{
+    const sensorData = await MONGOSERVER.waterSensorMongoService.getWaterSensorData(
+      serialnumber
+    );
+    return sensorData;
+  }
+
   async storageAirSensorMongoData(data: AirSensorData): Promise<void> {
     await MONGOSERVER.airSensorMongoService.saveAirSensorData(data);
   }
