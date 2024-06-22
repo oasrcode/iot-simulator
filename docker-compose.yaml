@@ -1,12 +1,11 @@
 version: "3.7"
 services:
-  # mqtt5 eclipse-mosquitto
   mqtt5:
     image: eclipse-mosquitto
     container_name: mqtt-broker
     ports:
-      - "1883:1883" #default mqtt port
-      - "9001:9001" #default mqtt port for websockets
+      - "1883:1883" 
+      - "9001:9001" 
     volumes:
       - ./mosquitto/config:/mosquitto/config:rw
       - ./mosquitto/data:/mosquitto/data:rw
@@ -16,7 +15,7 @@ services:
     build: ./iot-agent
     container_name: iot-agent
     ports:
-      - "8080:8080" #default mqtt port
+      - "8080:8080" 
     restart: unless-stopped
     depends_on: 
       - mqtt5
@@ -24,7 +23,7 @@ services:
     build: ./api
     container_name: api
     ports:
-      - "5000:5000" #default mqtt port
+      - "5000:5000" 
     restart: unless-stopped
     environment:
       - PORT=5000
@@ -49,7 +48,7 @@ services:
     image: mongo
     container_name: mongo
     ports:
-      - "27017:27017" # default MongoDB port
+      - "27017:27017" 
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin  
