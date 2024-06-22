@@ -11,52 +11,32 @@ class WaterSensorMongoRepository implements IWaterSensorMongoRepository {
   }
   async GetAllWaterSensorsData(): Promise<WaterSensorData[] | null> {
     try {
-      let sensorDataList = await this.database
-        .collection<WaterSensorData>(this.collectionName)
-        .find({}).toArray();
+      let sensorDataList = await this.database.collection<WaterSensorData>(this.collectionName).find({}).toArray();
       return sensorDataList;
     } catch (error) {
-      console.log("Error al recuperar la lista de watersensors.");
       throw error;
     }
   }
-  async getWaterSensorDataBySerialnumber(
-    serialnumber: string
-  ): Promise<WaterSensorData | null> {
+  async getWaterSensorDataBySerialnumber(serialnumber: string): Promise<WaterSensorData | null> {
     try {
-      const sensordata = await this.database
-        .collection<WaterSensorData>(this.collectionName)
-        .findOne({ serialnumber });
+      const sensordata = await this.database.collection<WaterSensorData>(this.collectionName).findOne({ serialnumber });
 
       return sensordata;
     } catch (error) {
-      console.error(
-        `Error el recuperar el sensor del agua con serialnumber : ${serialnumber}`,
-        error
-      );
       throw error;
     }
   }
   async postWaterSensorData(data: WaterSensorData): Promise<void> {
     try {
-      await this.database
-        .collection<WaterSensorData>(this.collectionName)
-        .insertOne(data);
+      await this.database.collection<WaterSensorData>(this.collectionName).insertOne(data);
     } catch (error) {
-      console.error("Error al crear sensor del agua en mongo", error);
       throw error;
     }
   }
   async putWaterSensorData(data: WaterSensorData): Promise<void> {
     try {
-      await this.database
-        .collection<WaterSensorData>(this.collectionName)
-        .updateOne({ serialnumber: data.serialnumber }, { $set: data });
+      await this.database.collection<WaterSensorData>(this.collectionName).updateOne({ serialnumber: data.serialnumber }, { $set: data });
     } catch (error) {
-      console.error(
-        `Error al actualizar el sensor del agua con serialnumber : ${data.serialnumber}`,
-        error
-      );
       throw error;
     }
   }

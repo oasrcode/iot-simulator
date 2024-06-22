@@ -6,8 +6,6 @@ import AirSensorMongoService from "../service/airSensor/mongo/AirSensorMongoServ
 import WaterSensorMongoRepository from "../repository/waterSensor/mongo/WaterSensorMongoRepository";
 import WaterSensorMongoService from "../service/waterSensor/mongo/WaterSensorMongoService";
 
-
-
 const CLIENT = new MongoClient(mongoConfig.URL, mongoConfig.OPTIONS);
 
 const airSensorMongoRepository = new AirSensorMongoRepository(CLIENT, mongoConfig.DB);
@@ -15,7 +13,6 @@ const airSensorMongoService = new AirSensorMongoService(airSensorMongoRepository
 
 const waterSensorMongoRepository = new WaterSensorMongoRepository(CLIENT, mongoConfig.DB);
 const waterSensorMongoService = new WaterSensorMongoService(waterSensorMongoRepository);
-
 
 const COLLECTIONS = ["airsensors", "watersensors"];
 async function initMongo() {
@@ -42,9 +39,7 @@ async function createCollections() {
   if (!exist) {
     try {
       if (!mongoConfig.DB) {
-        console.error(
-          "Error: Nombre de base de datos no definida en las variables de entorno."
-        );
+        console.error("Error: Nombre de base de datos no definida en las variables de entorno.");
         return;
       }
       const db = CLIENT.db(mongoConfig.DB);
@@ -74,7 +69,7 @@ const MONGOSERVER = {
   close,
   CLIENT,
   airSensorMongoService,
-  waterSensorMongoService
+  waterSensorMongoService,
 };
 
 export default MONGOSERVER;

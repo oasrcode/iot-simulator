@@ -36,11 +36,11 @@ class AirSensorData implements IAirSensorData {
   co2: number = 0;
 
   constructor() {}
-  parseData(obj:any): void {
+  parseData(obj: any): void {
     this.serialnumber = obj.serialnumber;
     this.name = obj.name;
     this.type = obj.type;
-    this.date = new Date(obj.date); 
+    this.date = new Date(obj.date);
     this.location = obj.location;
     this.latitude = parseFloat(obj.latitude);
     this.longitude = Number(obj.longitude);
@@ -57,7 +57,13 @@ class AirSensorData implements IAirSensorData {
 
   printData(): void {
     console.log(`${new Date().toISOString()} Mensaje recibido en el sensor ${this.name}`);
-    console.log(`Datos: Serial Number: ${this.serialnumber}, Name: ${this.name}, Type: ${this.type}, Date: ${this.date.toISOString()}, Location: ${this.location}, Latitude: ${this.latitude}, Longitude: ${this.longitude}, PM10: ${this.pm10}, PM2.5: ${this.pm2_5}, Temperature: ${this.temperature}, Humidity: ${this.humidity}, Pressure: ${this.pressure}, CO: ${this.co}, NO2: ${this.no2}, SO2: ${this.so2}, CO2: ${this.co2}`);
+    console.log(
+      `Datos: Serial Number: ${this.serialnumber}, Name: ${this.name}, Type: ${this.type}, Date: ${this.date.toISOString()}, Location: ${this.location}, Latitude: ${this.latitude}, Longitude: ${
+        this.longitude
+      }, PM10: ${this.pm10}, PM2.5: ${this.pm2_5}, Temperature: ${this.temperature}, Humidity: ${this.humidity}, Pressure: ${this.pressure}, CO: ${this.co}, NO2: ${this.no2}, SO2: ${this.so2}, CO2: ${
+        this.co2
+      }`
+    );
     console.log(`--------------------------------------------------`);
   }
 }

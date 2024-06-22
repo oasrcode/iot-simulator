@@ -55,12 +55,12 @@ class WaterSensorData implements IWaterSensorData {
     this.arsenic = Number(obj.arsenic);
   }
   printData(): void {
-    console.log(
-      `${new Date().toISOString()} Mensaje recibido en el sensor ${this.name}`
-    );
+    console.log(`${new Date().toISOString()} Mensaje recibido en el sensor ${this.name}`);
     console.log(`Datos: 
       Serial Number: ${this.serialnumber}, Name: ${this.name}, Type: ${this.type}, Date: ${this.date.toISOString()}, Location: ${this.location}, Latitude: ${this.latitude}, 
-      Longitude: ${this.longitude}, pH: ${this.pH}, Turbidity: ${this.turbidity}, Dissolved Oxygen: ${this.dissolvedOxygen}, Conductivity: ${this.conductivity}, Total Dissolved Solids: ${this.totalDissolvedSolids}, 
+      Longitude: ${this.longitude}, pH: ${this.pH}, Turbidity: ${this.turbidity}, Dissolved Oxygen: ${this.dissolvedOxygen}, Conductivity: ${this.conductivity}, Total Dissolved Solids: ${
+      this.totalDissolvedSolids
+    }, 
       Residual Chlorine: ${this.residualChlorine}, Lead: ${this.lead}, Mercury: ${this.mercury}, Arsenic: ${this.arsenic}`);
     console.log(`--------------------------------------------------`);
   }

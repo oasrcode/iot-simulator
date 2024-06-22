@@ -19,7 +19,6 @@ class AirSensorCrateRepository implements IAirSensorCrateRepository {
     try {
       await this.cliente.query(query, values);
     } catch (error) {
-      console.error("Error al insertar los datos:", error);
       throw error;
     }
   }

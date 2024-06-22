@@ -9,9 +9,7 @@ import WaterSensorCrateService from "../service/waterSensor/crate/WaterSensorCra
 const CLIENT = new Client(CRATECONFIG.OPTIONS);
 
 const airSensorCrateRepository = new AirSensorCrateRepository(CLIENT);
-const airSensorCrateService = new AirSensorCrateService(
-  airSensorCrateRepository
-);
+const airSensorCrateService = new AirSensorCrateService(airSensorCrateRepository);
 
 const waterSensorCrateRepository = new WaterSensorCrateRepository(CLIENT);
 const waterSensorCrateService = new WaterSensorCrateService(waterSensorCrateRepository);
@@ -37,20 +35,18 @@ async function close() {
   }
 }
 
-async function createTables(query:string) {
-  
+async function createTables(query: string) {
   if (!query) {
     console.error("Error: Consulta no definida para crear la tabla AirSensor");
     return;
   }
-  
+
   try {
     await CLIENT.query(query);
   } catch (err) {
     console.log("Error al crear la tabla ", err);
     throw err;
   }
- 
 }
 
 const CRATEDBSERVER = {
@@ -58,7 +54,7 @@ const CRATEDBSERVER = {
   close,
   CLIENT,
   airSensorCrateService,
-  waterSensorCrateService
+  waterSensorCrateService,
 };
 
 export default CRATEDBSERVER;

@@ -1,4 +1,4 @@
-import AirSensorData from "../../models/AirSensorData";
+import AirSensorData from "../../../models/AirSensorData";
 
 interface IAirSensorCrateRepository {
   postAirSensorData(data: AirSensorData): Promise<void>;

@@ -9,26 +9,32 @@ class AirSensorMongoService implements IAirSensorMongoService {
     this.airSensorRepository = _airSensorRepository;
   }
   async getAllAirSensorsData(): Promise<AirSensorData[] | null> {
-    const sensorDataList = await this.airSensorRepository.getAllAirSensorData();
-    return sensorDataList;
+    try {
+      return await this.airSensorRepository.getAllAirSensorData();
+    } catch (error) {
+      throw error;
+    }
   }
   async getAirSensorData(serialnumber: string): Promise<AirSensorData | null> {
-    const sensorData =
-      await this.airSensorRepository.getAirSensorDataBySerialnumber(
-        serialnumber
-      );
-
-    return sensorData;
+    try {
+      return await this.airSensorRepository.getAirSensorDataBySerialnumber(serialnumber);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async saveAirSensorData(data: AirSensorData): Promise<void> {
-    const sensor = await this.getAirSensorData(data.serialnumber);
-
-    if (!sensor) {
-      await this.airSensorRepository.postAirSensorData(data);
+    let sensor = null;
+    try {
+      sensor = await this.getAirSensorData(data.serialnumber);
+    } catch (error) {
+      throw error;
     }
-    {
-      await this.airSensorRepository.putAirSensorData(data);
+
+    try {
+      !sensor ? await this.airSensorRepository.postAirSensorData(data) : await this.airSensorRepository.putAirSensorData(data);
+    } catch (error) {
+      throw error;
     }
   }
 }

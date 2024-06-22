@@ -1,6 +1,5 @@
 import { MongoClient, Db } from "mongodb";
 
-
 import IAirSensorMongoRepository from "./IAirSensorMongoRepository";
 import AirSensorData from "../../../models/AirSensorData";
 
@@ -13,53 +12,33 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
   }
   async getAllAirSensorData(): Promise<AirSensorData[] | null> {
     try {
-      let sensorDataList = await this.database
-        .collection<AirSensorData>(this.collectionName)
-        .find({}).toArray();
+      let sensorDataList = await this.database.collection<AirSensorData>(this.collectionName).find({}).toArray();
       return sensorDataList;
     } catch (error) {
-      console.log("Error al recuperar la lista de airsensors.");
       throw error;
     }
   }
 
-  async getAirSensorDataBySerialnumber(
-    serialnumber: string
-  ): Promise<AirSensorData | null> {
+  async getAirSensorDataBySerialnumber(serialnumber: string): Promise<AirSensorData | null> {
     try {
-      const sensordata = await this.database
-        .collection<AirSensorData>(this.collectionName)
-        .findOne({ serialnumber });
+      const sensordata = await this.database.collection<AirSensorData>(this.collectionName).findOne({ serialnumber });
 
       return sensordata;
     } catch (error) {
-      console.error(
-        `Error el recuperar el sensor del aire con serialnumber : ${serialnumber}`,
-        error
-      );
       throw error;
     }
   }
   async postAirSensorData(data: any): Promise<void> {
     try {
-      await this.database
-        .collection<AirSensorData>(this.collectionName)
-        .insertOne(data);
+      await this.database.collection<AirSensorData>(this.collectionName).insertOne(data);
     } catch (error) {
-      console.error("Error al crear el sensor del aire en mongo", error);
       throw error;
     }
   }
   async putAirSensorData(data: any): Promise<void> {
     try {
-      await this.database
-        .collection<AirSensorData>(this.collectionName)
-        .updateOne({ serialnumber: data.serialnumber }, { $set: data });
+      await this.database.collection<AirSensorData>(this.collectionName).updateOne({ serialnumber: data.serialnumber }, { $set: data });
     } catch (error) {
-      console.error(
-        `Error al actualizar el sensor del aire con serialnumber : ${data.serialnumber}`,
-        error
-      );
       throw error;
     }
   }

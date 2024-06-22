@@ -9,8 +9,7 @@ class WaterSensorMongoService implements IWaterSensorMongoService {
     this.waterSensorRepository = _waterSensorRepository;
   }
   async getAllWaterSensorsData(): Promise<WaterSensorData[] | null> {
-    const sensorDataList =
-      await this.waterSensorRepository.GetAllWaterSensorsData();
+    const sensorDataList = await this.waterSensorRepository.GetAllWaterSensorsData();
     return sensorDataList;
   }
   async saveWaterSensorData(data: WaterSensorData): Promise<void> {
@@ -21,15 +20,12 @@ class WaterSensorMongoService implements IWaterSensorMongoService {
       await this.waterSensorRepository.putWaterSensorData(data);
     }
   }
-  async getWaterSensorData(
-    serialnumber: string
-  ): Promise<WaterSensorData | null> {
-    const sensorData =
-      await this.waterSensorRepository.getWaterSensorDataBySerialnumber(
-        serialnumber
-      );
-
-    return sensorData;
+  async getWaterSensorData(serialnumber: string): Promise<WaterSensorData | null> {
+    try {
+      return await this.waterSensorRepository.getWaterSensorDataBySerialnumber(serialnumber);
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
