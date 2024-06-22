@@ -8,6 +8,11 @@ class WaterSensorMongoService implements IWaterSensorMongoService {
   constructor(_waterSensorRepository: IWaterSensorMongoRepository) {
     this.waterSensorRepository = _waterSensorRepository;
   }
+  async getAllWaterSensorsData(): Promise<WaterSensorData[] | null> {
+    const sensorDataList =
+      await this.waterSensorRepository.GetAllWaterSensorsData();
+    return sensorDataList;
+  }
   async saveWaterSensorData(data: WaterSensorData): Promise<void> {
     const sensor = await this.getWaterSensorData(data.serialnumber);
     if (!sensor) {

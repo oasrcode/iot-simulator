@@ -4,18 +4,24 @@ import MONGOSERVER from "../database/mongo";
 import WaterSensorData from "../models/WaterSensorData";
 
 class SensorController {
-  async getAirSensorMongoData(serialnumber: string): Promise<AirSensorData | null>{
-    const sensorData = await MONGOSERVER.airSensorMongoService.getAirSensorData(
+  async getAirSensorMongoData(
+    serialnumber: string
+  ): Promise<AirSensorData | null> {
+    return await MONGOSERVER.airSensorMongoService.getAirSensorData(
       serialnumber
     );
-    return sensorData;
   }
 
-  async getWaterSensorMongoData(serialnumber: string): Promise<WaterSensorData | null>{
-    const sensorData = await MONGOSERVER.waterSensorMongoService.getWaterSensorData(
+  async getWaterSensorMongoData(
+    serialnumber: string
+  ): Promise<WaterSensorData | null> {
+    return await MONGOSERVER.waterSensorMongoService.getWaterSensorData(
       serialnumber
     );
-    return sensorData;
+  }
+
+  async getAllWaterSensorMongoData(): Promise<WaterSensorData[] | null> {
+    return await MONGOSERVER.waterSensorMongoService.getAllWaterSensorsData();
   }
 
   async storageAirSensorMongoData(data: AirSensorData): Promise<void> {

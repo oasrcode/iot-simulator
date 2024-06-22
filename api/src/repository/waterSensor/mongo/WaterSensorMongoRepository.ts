@@ -9,6 +9,17 @@ class WaterSensorMongoRepository implements IWaterSensorMongoRepository {
   constructor(_database: MongoClient, _dbName: string) {
     this.database = _database.db(_dbName);
   }
+  async GetAllWaterSensorsData(): Promise<WaterSensorData[] | null> {
+    try {
+      let sensorDataList = await this.database
+        .collection<WaterSensorData>(this.collectionName)
+        .find({}).toArray();
+      return sensorDataList;
+    } catch (error) {
+      console.log("Error al recuperar la lista de watersensors.");
+      throw error;
+    }
+  }
   async getWaterSensorDataBySerialnumber(
     serialnumber: string
   ): Promise<WaterSensorData | null> {
