@@ -28,6 +28,15 @@ sensorRouter.get("/waterSensors", async (req: Request, res: Response) => {
     res.status(500).send("Error al traerse los watersensors.");
   }
 });
+sensorRouter.get("/airSensors", async (req: Request, res: Response) => {
+  try {
+    const data = await sensorController.getAllAirSensorMongoData();
+    return res.status(200).send(data);
+  } catch (error) {
+    console.log("Error al traerse los airsensors ", error);
+    res.status(500).send("Error al traerse los watersensors.");
+  }
+});
 
 async function getSensorData(type: string, req: Request, res: Response) {
   const { serialnumber } = req.params;

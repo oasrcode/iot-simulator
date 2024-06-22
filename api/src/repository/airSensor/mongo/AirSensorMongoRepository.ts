@@ -11,6 +11,17 @@ class AirSensorMongoRepository implements IAirSensorMongoRepository {
   constructor(_database: MongoClient, _dbName: string) {
     this.database = _database.db(_dbName);
   }
+  async getAllAirSensorData(): Promise<AirSensorData[] | null> {
+    try {
+      let sensorDataList = await this.database
+        .collection<AirSensorData>(this.collectionName)
+        .find({}).toArray();
+      return sensorDataList;
+    } catch (error) {
+      console.log("Error al recuperar la lista de airsensors.");
+      throw error;
+    }
+  }
 
   async getAirSensorDataBySerialnumber(
     serialnumber: string

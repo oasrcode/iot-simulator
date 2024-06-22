@@ -19,6 +19,10 @@ class SensorController {
       serialnumber
     );
   }
+  async getAllAirSensorMongoData(): Promise<AirSensorData[] | null> {
+    return await MONGOSERVER.airSensorMongoService.getAllAirSensorsData();
+  }
+
 
   async getAllWaterSensorMongoData(): Promise<WaterSensorData[] | null> {
     return await MONGOSERVER.waterSensorMongoService.getAllWaterSensorsData();

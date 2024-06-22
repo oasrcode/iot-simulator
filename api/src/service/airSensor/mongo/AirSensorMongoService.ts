@@ -8,6 +8,10 @@ class AirSensorMongoService implements IAirSensorMongoService {
   constructor(_airSensorRepository: IAirSensorMongoRepository) {
     this.airSensorRepository = _airSensorRepository;
   }
+  async getAllAirSensorsData(): Promise<AirSensorData[] | null> {
+    const sensorDataList = await this.airSensorRepository.getAllAirSensorData();
+    return sensorDataList;
+  }
   async getAirSensorData(serialnumber: string): Promise<AirSensorData | null> {
     const sensorData =
       await this.airSensorRepository.getAirSensorDataBySerialnumber(
