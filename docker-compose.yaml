@@ -73,4 +73,4 @@ volumes:
 
 networks:
   default:
-    name: iot-dashboard
+    name: iot-simulator
