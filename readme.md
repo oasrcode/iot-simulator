@@ -1,7 +1,7 @@
 
 # IOT.-Simulator
 
-Proyecto que simula la generación de datos de sensores de aire y agua, para ser almacenados en base de datos de mongo y de seriestemporales como cratedb.
+Proyecto que simula la generación de datos de sensores de aire y agua, para ser almacenados en mongo y de series temporales, cratedb.
 
 # Requisitos
 
