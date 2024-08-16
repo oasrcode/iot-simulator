@@ -1,4 +1,3 @@
-
 # IOT.-Simulator
 
 Proyecto que simula la generación de datos de sensores de aire y agua, para ser almacenados en base de datos de mongo y de seriestemporales como cratedb.
@@ -165,3 +164,64 @@ La contraseña será pedida tras hacer click en enter. Cambiar el mosquitto.conf
 ## Conexión con Mqtt Explorer
 
 ![1716640998235](image/readme/1716640998235.png)
+
+
+## API Endpoints
+
+La API proporciona acceso a datos de sensores de calidad del aire y del agua. A continuación se describen los endpoints disponibles:
+
+### Obtener Datos de Sensores de Aire
+
+#### `GET /airSensors/:serialnumber`
+
+* **Descripción:** Obtiene los datos del sensor de calidad del aire asociado al número de serie especificado.
+* **Parámetros:**
+  * `serialnumber` (obligatorio): Un código alfanumérico de 10 caracteres que identifica al sensor.
+* **Respuestas:**
+  * `200 OK`: Devuelve los datos del sensor de aire.
+  * `400 Bad Request`: El número de serie no es válido.
+  * `404 Not Found`: Sensor no encontrado.
+
+#### `GET /airSensors`
+
+* **Descripción:** Obtiene los datos de todos los sensores de calidad del aire almacenados en la base de datos.
+* **Parámetros:** No requiere parámetros.
+* **Respuestas:**
+  * `200 OK`: Devuelve una lista con los datos de todos los sensores de aire.
+  * `500 Internal Server Error`: Error al recuperar los datos.
+
+### Obtener Datos de Sensores de Agua
+
+#### `GET /waterSensors/:serialnumber`
+
+* **Descripción:** Obtiene los datos del sensor de calidad del agua asociado al número de serie especificado.
+* **Parámetros:**
+  * `serialnumber` (obligatorio): Un código alfanumérico de 10 caracteres que identifica al sensor.
+* **Respuestas:**
+  * `200 OK`: Devuelve los datos del sensor de agua.
+  * `400 Bad Request`: El número de serie no es válido.
+  * `404 Not Found`: Sensor no encontrado.
+
+#### `GET /waterSensors`
+
+* **Descripción:** Obtiene los datos de todos los sensores de calidad del agua almacenados en la base de datos.
+* **Parámetros:** No requiere parámetros.
+* **Respuestas:**
+  * `200 OK`: Devuelve una lista con los datos de todos los sensores de agua.
+  * `500 Internal Server Error`: Error al recuperar los datos.
+
+### Ejemplos de Números de Serie
+
+A continuación se presentan ejemplos de números de serie válidos para los sensores:
+
+* **Sensores de Aire:**
+  * Serial: `0XP3XQ07VV`
+  * Serial: `SPIWPJSZON`
+* **Sensores de Agua:**
+  * Serial: `MJBPICLTHG`
+  * Serial: `XCVZ86U3LL`
+
+### Notas
+
+* Asegúrese de que el número de serie proporcionado en los endpoints que lo requieren cumpla con el formato especificado, ya que de lo contrario la API devolverá un error de validación.
+* En caso de error, la API devolverá mensajes claros para facilitar la corrección de las solicitude
