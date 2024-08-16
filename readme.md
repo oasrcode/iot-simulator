@@ -1,6 +1,6 @@
 # IOT.-Simulator
 
-Proyecto que simula la generación de datos de sensores de aire y agua, para ser almacenados en base de datos de mongo y de seriestemporales como cratedb.
+Proyecto que simula la generación de datos de sensores de aire y agua, para ser almacenados en mongo y de series temporales, cratedb.
 
 # Requisitos
 
@@ -11,13 +11,13 @@ En el equipo donde se ejecutará el servicio debe de tener instalado Docker apra
 Clonar el repositorio.
 
 ```bash
-git clone https://github.com/tu-usuario/nombre-del-proyecto.git
+git clone https://github.com/oasrcode/iot-simulator.git
 ```
 
 Entra en el directorio del proyecto.
 
 ```bash
-cd nombre-del-proyecto
+cd iot-simulator
 ```
 
 Levantar los contenedores.
