@@ -64,12 +64,26 @@ services:
     volumes:
       - crate-data:/tmp/crate/data 
     restart: unless-stopped
+  nodered:
+    image: nodered/node-red
+    container_name: nodered
+    ports:
+      - "1880:1880"
+    environment:
+      - TZ=Europe/Las Palmas de Gran Canarias
+    restart: unless-stopped
+    depends_on: 
+      - mqtt5
+    volumes:
+      - nodered-data:/data
+
 volumes:
   config:
   data:
   log:
   mongo-data:
   crate-data:
+  nodered-data:
 
 networks:
   default:
